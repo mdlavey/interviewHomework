@@ -1,30 +1,46 @@
 package com.interview.homework.client;
 
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.math.BigInteger;
+
+import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
 
 import java.lang.reflect.Type;
 
-@Slf4j
 public class MySessionHandler extends StompSessionHandlerAdapter {
 
-    @Override
-    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        session.subscribe("/returnFib", this);
-        session.send("/app/findFib/{n}", "{\"name\":\"Client\"}".getBytes());
+    private void subscribeReturnFib(String returnFib,StompSession session)
+    {
+        session.subscribe(returnFib, new StompFrameHandler() {
+
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return BigInteger.class;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers,
+                        Object payload)
+            {
+            System.err.println(payload.toString());
+            }
+        });
     }
 
     @Override
-    public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
-        exception.printStackTrace();
-    }
-
-    @Override
-    public Type getPayloadType(StompHeaders headers) {
-        return Integer.class;
+    public void afterConnected(StompSession session, StompHeaders connectedHeaders)
+    {
+        subscribeReturnFib("/returnFib", session);
+        session.send("/app/findFib", null);
     }
 }
