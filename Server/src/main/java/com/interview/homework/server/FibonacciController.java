@@ -21,13 +21,15 @@ public class FibonacciController {
     @MessageMapping("/findFib")
     @SendTo("/returnFib")
     public BigInteger findNextFib(int n) throws InterruptedException {
+        long startTime = System.nanoTime();
         if(n < preCalculatedFib.size()) {
             return preCalculatedFib.get(n);
         }
         for(int i = preCalculatedFib.size() - 1; i <= n; i++) {
-
+            System.out.println("i = " + i);
             preCalculatedFib.add(preCalculatedFib.get(i - 1).add(preCalculatedFib.get(i)));
         }
+        System.out.println((System.nanoTime() - startTime) / 1000000000);
         return preCalculatedFib.get(n);
     }
 
