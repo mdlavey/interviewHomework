@@ -15,7 +15,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 public class FibonacciController {
 
     //prime ArrayList with first 5 values of fibonacci sequence
-	private List<BigInteger> preCalculatedFib = new ArrayList<>(Arrays.asList(BigInteger.valueOf(0L),BigInteger.valueOf(1L),BigInteger.valueOf(1L),BigInteger.valueOf(2L),BigInteger.valueOf(3L)));
+    private List<BigInteger> preCalculatedFib = new ArrayList<>(Arrays.asList(BigInteger.valueOf(0L),BigInteger.valueOf(1L),BigInteger.valueOf(1L),BigInteger.valueOf(2L),BigInteger.valueOf(3L)));
 
 
     @MessageMapping("/findFib")
