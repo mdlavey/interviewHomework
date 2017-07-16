@@ -10,14 +10,14 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @Configuration
 @EnableWebSocketMessageBroker
 public class ServerConfig extends AbstractWebSocketMessageBrokerConfigurer {
-	@Override
-	public void configureMessageBroker(MessageBrokerRegistry config) {
-    	config.enableSimpleBroker("/returnFib");
-    	config.setApplicationDestinationPrefixes("/app");
-	}
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/returnFib");
+        config.setApplicationDestinationPrefixes("/app");
+    }
 
-	@Override
-	public void registerStompEndpoints(StompEndpointRegistry registry) {
-    	registry.addEndpoint("/findFib").setAllowedOrigins("*").withSockJS();
-	}
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/findFib").setAllowedOrigins("*").withSockJS();
+    }
 }
